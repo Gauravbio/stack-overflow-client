@@ -24,11 +24,16 @@ const Navbar = () => {
     if(token) {
       const decodeToken=decode(token);
       if(decodeToken.exp*1000 <= new Date().getTime()) {
-        handleLogout();
+        const handle =()=> {
+          dispatch({type:'LOGOUT'});
+          navigate('/');
+          dispatch(setCurrentUser(null));
+        }
+        handle()
       }
     }
     dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))));
-  },[dispatch])
+  },[dispatch,User.token,navigate])
   return (
     <nav className="main-nav">
       <div className="navbar">
